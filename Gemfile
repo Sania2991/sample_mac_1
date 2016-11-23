@@ -8,7 +8,7 @@ gem 'coffee-rails', '4.2.1'
 gem 'jquery-rails', '4.1.1'
 gem 'turbolinks',   '5.0.1'
 gem 'jbuilder',     '2.4.1'
-gem 'pry-rails', :group => :development
+#gem 'pry-rails', :group => :development
 
 group :development, :test do
   gem 'sqlite3', '1.3.12'
@@ -27,6 +27,7 @@ group :production do
 end
 
 group :test do                                                                  # p_119 ...
+  gem 'pry-rails'
   gem 'rails-controller-testing', '0.1.1'
   gem 'minitest-reporters',       '1.1.9'
   gem 'guard',                    '2.13.0'
