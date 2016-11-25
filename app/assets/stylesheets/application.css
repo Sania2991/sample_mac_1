@@ -10,6 +10,7 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
+ * Это ключевые 2 строки: они позволяют включить файлы css и scss в наше приложение. Стр_178 ;
  *= require_tree .
  *= require_self
  */

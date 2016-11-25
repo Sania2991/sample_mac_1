@@ -2,14 +2,20 @@
 <html>
   <head>
     <title><%= full_title(yield(:title)) %></title>     <!--113 -->
-                                                                                <!-- 113... -->
+                                                                                <!-- 113 ... -->
     <%= csrf_meta_tags %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-                                                                                <!-- ...113 -->
+                                                                                <!-- ... 113 -->
+
+    <%= render 'layouts/shim' %>                                                <!-- 174 -->
   </head>
 
-  <body>
-    <%= yield %>
-  </body>
+  <body>                                                                        <!-- 162 ... -->
+  <%= render 'layouts/header' %>                                                <!-- 174 -->
+    <div class="container">
+      <%= yield %>
+      <%= render 'layouts/footer' %>                                            <!-- 176 -->
+    </div>
+  </body>                                                                       <!-- ... 163 -->
 </html>
