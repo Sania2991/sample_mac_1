@@ -4,7 +4,9 @@ class UserTest < ActiveSupport::TestCase
   # p_213
   # этот метод автоматически запускается перед каждым тестом
   def setup
-    @user = User.new(name: "Example User", email: "user@examle.com")
+    # p_232: добавление пароля и проверки
+    @user = User.new(name: "Example User", email: "user@examle.com",
+                     password: "foobar", password_confirmation: "foobar")
   end
 
   # проверка допустимости
@@ -66,6 +68,19 @@ class UserTest < ActiveSupport::TestCase
     duplicate_user.email = @user.email.upcase
     @user.save
     assert_not duplicate_user.valid?
+  end
+
+  test "password should havea minimum length" do
+    @user.password = @user.password_confirmation = "a" * 5
+    assert_not @user.valid?
+  end
+
+  # p_237: тест на проверку преобразования email в нижний регистр
+  test "email addresses should be saved as lower-case" do
+    mixed_case_email = "Foo@ExAmpLe.coM"
+    @user.email = mixed_case_email
+    @user.save
+    assert_equal mixed_case_email.downcase, @user.reload.email
   end
 
 end
