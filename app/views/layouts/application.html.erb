@@ -21,7 +21,9 @@
     <div class="container">
       <!-- p_277: добавление кратковременных сообщений в шаблон сайта -->
       <% flash.each do |message_type, message| %>
-        <div class="alert alert-<%= message_type %>"><%= message %></div>
+        <!-- p_287: применю content_tag для большей удобности (наглядности) -->
+        <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
+        <!--<div class="alert alert-<%= message_type %>"><%= message %></div>-->
       <% end %>
 
       <%= yield %>

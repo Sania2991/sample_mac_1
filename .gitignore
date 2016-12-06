@@ -23,4 +23,5 @@
 .byebug_history
 
 # Ignore Spring files.
-/spring/*.pid                                                                   # p_122
+/spring/*.pid
+# p_122
