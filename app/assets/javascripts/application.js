@@ -12,5 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+// Подключаем JavaScript-библиотеки Bootstrap
+//= require bootstrap
 //= require turbolinks
 //= require_tree .

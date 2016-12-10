@@ -16,4 +16,15 @@ class User < ApplicationRecord
   #                                       * метод authenticate
   has_secure_password
   validates :password, length: {minimum: 6}
+
+  # p_311: добавление метода digest для использования в тестах
+  #
+  # возвращает дайджест для указанной строки
+  def User.digest(string)
+    cost = ActiveModel::SecurePassword.min_cost ?
+           BCrypt::Engine::MIN_COST :
+           BCrypt::Engine.cost
+    BCrypt::Password.create(string, cost: cost)
+  end
+
 end

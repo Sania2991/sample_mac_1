@@ -30,6 +30,8 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                             password_confirmation: "password"}
     end
     assert_template 'users/show'
+    # p_315: тест входа после регистрации (метод прописан в test/test_helper.rb)
+    assert is_logged_in?
   end
 
 end

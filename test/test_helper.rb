@@ -9,4 +9,11 @@ class ActiveSupport::TestCase
   fixtures :all
  include ApplicationHelper                                                       # P_198
   # Add more helper methods to be used by all tests here...
+
+  # p_314: логический метод определения входа внутри тестов
+  # возвращает true, усли тестовый пользователь вошел
+  def is_logged_in?
+    !session[:user_id].nil?
+  end
+
 end

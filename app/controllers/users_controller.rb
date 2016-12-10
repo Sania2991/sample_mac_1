@@ -16,6 +16,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      # p_313: автоматический вход после регистрации
+      # метод доступен,т.к.прописали в app/controllers/appication_controller.rb
+      log_in @user
       # p_277: кратковременные сообщения
       flash[:success] = "Welcome to the Sample App!"
       # обрабатывает успешное сохранение
