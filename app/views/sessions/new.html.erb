@@ -5,7 +5,8 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <!-- почитать подробней на стр. 292 -->
-    <!-- :session, url: login_path - позволет нам сделать форму входа-->
+    <!-- :session, url: login_path - позволет нам сделать форму входа и -->
+    <!-- и отправить в sessions_controller.rb -->
     <%= form_for(:session, url: login_path) do |f| %>
 
       <%= f.label :email %>

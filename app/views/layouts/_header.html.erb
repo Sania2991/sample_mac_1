@@ -7,8 +7,12 @@
         <li><%= link_to "Home", root_path %></li>
         <li><%= link_to "Help", help_path %></li>
         <!-- p_308: добавление ссылок для зарегистрированного пользователя -->
+        <!-- ф-ция взята с app/helpers/sessions_helper, доступна, -->
+        <!-- т.к. подключили в app/controllers/application_controller -->
         <% if logged_in? %>
           <li><%= link_to "Users", '#' %></li>
+          <!-- раскрывающийся список доступен. т.к. подключили
+               //= require bootstrap в app/assets/javascripts/application.js -->
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               Account <b class="caret"></b>
@@ -21,10 +25,10 @@
               <%= link_to "Log out", logout_path, method: "delete" %>
             </li>
           </ul>
-        </li>
-      <% else %>
-        <li><%= link_to "Log in", '#' %></li>
-      <% end %>
+          </li>
+        <% else %>
+          <li><%= link_to "Log in", '#' %></li>
+        <% end %>
       </ul>
     </nav>
   </div>

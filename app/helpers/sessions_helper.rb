@@ -9,6 +9,7 @@ module SessionsHelper
 
   # p_306: поиск текущего пользователя в сеансе, используя сжатый метод
   # возращает текущего вошедшего пользователя (если есть).
+  # Ruby соглашение о хранении результатов find_by в переменной
   def current_user
     @current_user ||= User.find_by(id: session[:user_id])
   end

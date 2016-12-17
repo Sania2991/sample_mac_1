@@ -8,6 +8,7 @@ class SessionsController < ApplicationController
     # p_296  - поиск и аутентификация пользователя по email/password
     # первая строка извлекает инфу опользователе из Б.Д.
     # params[:session][:email] - вводимые данные из /login
+    # find_by в случае отсутствия - возвр. nil, а find -> исключение
     user = User.find_by(email: params[:session][:email].downcase)
     # любой, кроме nill/false является true сделано с помощью оператора && (и)
     if user && user.authenticate(params[:session][:password])
@@ -19,7 +20,7 @@ class SessionsController < ApplicationController
     else
       # p_297 - вовод сообщения, если неправильно.
       # Т.к. метод render -
-      # p_300: вместо flash использовал flash.now
+      # p_300: вместо flash использ. flash.now (показ. до любого др. действия)
       flash.now[:danger] = 'Invalid email/password combination'
       # Создать сообщение об ошибки
       render 'new'

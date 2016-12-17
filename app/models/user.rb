@@ -17,9 +17,10 @@ class User < ApplicationRecord
   has_secure_password
   validates :password, length: {minimum: 6}
 
-  # p_311: добавление метода digest для использования в тестах
-  #
+  # p_311: добавление метода digest для использования в тестах, его доступ.
+  # исп. мин. параметр cost в тестах, и норм. в эксплуатационном режиме.
   # возвращает дайджест для указанной строки
+  # теперь можно определить тестовые данные в: test/fixtures/users.yml
   def User.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ?
            BCrypt::Engine::MIN_COST :
