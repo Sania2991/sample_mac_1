@@ -21,4 +21,11 @@ module SessionsHelper
     !current_user.nil?
   end
 
+  # p_316: осуществляется выход текущего пользователя
+  def log_out
+    session.delete(:user_id)
+    # p_315: внизу пояснение: редкая комбинация, но нужна для безопасности
+    @current_user = nil
+  end
+
 end

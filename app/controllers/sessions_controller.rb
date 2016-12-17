@@ -28,6 +28,10 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    # p_316: метод добавили в sessions_helper.rb
+    log_out
+    # перенаправление на root_url, в данном случае на нач. страницу
+    redirect_to root_url
   end
 
 end

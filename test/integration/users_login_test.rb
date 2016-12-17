@@ -14,7 +14,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     # убедиться, что форма, предоставляющая новый сеанс, отображается верно
     assert_template 'sessions/new'
     # отправить хэш params с ошибочной информацией в составе запроса по маршруту
-    post login_path, session: { email: "", password: "" }
+    post login_path, params: { session: { email: "", password: "" } }
     # убедиться, что сервер вновь вернул форму,
     assert_template 'sessions/new'
     # , но уже с сообщением об ошибке
@@ -25,19 +25,40 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert flash.empty?
   end
 
+
   # p_312: тест входа пользователя с верной информацией
   # @user - смотри метод setup - выше
-  test "login with valid information" do
+  # test "login with valid information" do
+  # p_317: имя теста и функционал был немного изменён:
+  test "login with valid information followed by logout" do
     get login_path
-    post login_path, session: { email: @user.email, password: 'password' }
+    post login_path, params: { session: { email:    @user.email,
+                                          password: 'password' } }
+    # p_317: тест входа после регистрации (метод прописан в test/test_helper.rb)
+    assert is_logged_in?
     # p_312: Проеряем переадресацию
     assert_redirected_to @user
-    # p_312: исползуем, чтобы открыть эту страницу
+    # p_312: используем, чтобы открыть эту страницу
     follow_redirect!
     assert_template 'users/show'
     assert_select "a[href=?]", login_path, count: 0
     assert_select "a[href=?]", logout_path
     assert_select "a[href=?]", user_path(@user)
+    # p_317: дальше идут те самые изменения:
+    # отправляем запрос delete
+    delete logout_path
+    # убеждаемся, что пользователь вышел
+    assert_not is_logged_in?
+    # проверяем переадресацию
+    assert_redirected_to root_url
+    # прозодим по ней
+    follow_redirect!
+    # проверяем, что появилась ссылка на вход
+    assert_select "a[href=?]", login_path
+    # а ссылки на выход пропала
+    assert_select "a[href=?]", logout_path, count: 0
+    # а также ссылка на профиль
+    assert_select "a[href=?]", user_path(@user), count: 0
   end
 
 end
