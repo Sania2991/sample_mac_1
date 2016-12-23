@@ -15,7 +15,16 @@ class SessionsController < ApplicationController
       # осуществляется вход пользователя и переадресовать на страницу профиля.
       # p_302: вход пользователя с помощью временных cookies
       log_in user
-      # компактная форма переадресации, rails автомат. преобр. в user_url(user)
+      # p_326: вход и запоминание пользователя
+      # по аналогии с log_in, вся осн. работа передается вспом. модулю
+      # SessionsHelper, где определен метод remember, вызывающий user.remember,
+      # который генерирует токен и сохраняет в Б.Д. его дайджест. Затем вызывает
+      # метод cookies, чтобы создать постоянный cookie.
+      #remember user
+
+      # p_338: Обработка флажка "Запомни меня". Стоит - запоминает, иначе нет.
+      params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+      # p_302: компактная форма переадресации, rails автомат. преобр. в user_url(user)
       redirect_to user
     else
       # p_297 - вовод сообщения, если неправильно.
@@ -29,7 +38,9 @@ class SessionsController < ApplicationController
 
   def destroy
     # p_316: метод добавили в sessions_helper.rb
-    log_out
+    # log_out
+    # p_333: выполнять вызод только когда пользователь определется как вошедший:
+    log_out if logged_in?
     # перенаправление на root_url, в данном случае на нач. страницу
     redirect_to root_url
   end

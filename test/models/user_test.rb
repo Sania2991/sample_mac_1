@@ -83,4 +83,10 @@ class UserTest < ActiveSupport::TestCase
     assert_equal mixed_case_email.downcase, @user.reload.email
   end
 
+  # p_333: Проверка вызова authenticated? с несуществующим дайджестом
+    # проверка теста с двумя браузерами: токен оставили пустым
+  test "authenticated? should return false for a user with nil digest" do
+    assert_not @user.authenticated?('')
+  end
+
 end

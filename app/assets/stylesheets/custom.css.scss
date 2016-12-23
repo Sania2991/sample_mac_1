@@ -171,6 +171,21 @@ input {
   height: auto !important;
 }
 
+.checkbox {
+  margin-top: -10px;
+  margin-bottom: 10px;
+  span {
+    margin-left: 20px;
+    font-weight: normal;
+  }
+}
+
+/* форма для флажка */
+#session_remember_me {
+  width: auto;
+  margin-left: 0;
+}
+
 /* p_269 */
 #errors_explanation {
   color: red;
