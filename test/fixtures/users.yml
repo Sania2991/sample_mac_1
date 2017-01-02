@@ -1,7 +1,0 @@
-# p_227: удалили всё, что было
-# p_311: добавили тестовые данные для проверки входа пользователя
-         # стало возможно благодаря добавлению User.digest в app/models/user.rb
-michael:
-    name: Michael Example
-    email: michael@example.com
-    password_digest: <%= User.digest('password') %>
