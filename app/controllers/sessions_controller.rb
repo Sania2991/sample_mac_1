@@ -9,12 +9,14 @@ class SessionsController < ApplicationController
     # первая строка извлекает инфу опользователе из Б.Д.
     # params[:session][:email] - вводимые данные из /login
     # find_by в случае отсутствия - возвр. nil, а find -> исключение
-    user = User.find_by(email: params[:session][:email].downcase)
+    # p_347: переопределили обычную переменную user на перем. экземпляра @user
+      # теперь в тесте получим доступ к перем. экз. с помощью assigns
+    @user = User.find_by(email: params[:session][:email].downcase)
     # любой, кроме nill/false является true сделано с помощью оператора && (и)
-    if user && user.authenticate(params[:session][:password])
+    if @user && @user.authenticate(params[:session][:password])
       # осуществляется вход пользователя и переадресовать на страницу профиля.
       # p_302: вход пользователя с помощью временных cookies
-      log_in user
+      log_in @user
       # p_326: вход и запоминание пользователя
       # по аналогии с log_in, вся осн. работа передается вспом. модулю
       # SessionsHelper, где определен метод remember, вызывающий user.remember,
@@ -23,9 +25,9 @@ class SessionsController < ApplicationController
       #remember user
 
       # p_338: Обработка флажка "Запомни меня". Стоит - запоминает, иначе нет.
-      params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+      params[:session][:remember_me] == '1' ? remember(@user) : forget(@user)
       # p_302: компактная форма переадресации, rails автомат. преобр. в user_url(user)
-      redirect_to user
+      redirect_to @user
     else
       # p_297 - вовод сообщения, если неправильно.
       # Т.к. метод render -

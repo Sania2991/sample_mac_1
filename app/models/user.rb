@@ -19,16 +19,17 @@ class User < ApplicationRecord
   has_secure_password
   validates :password, length: {minimum: 6}
 
+  # ЗАМЕНИЛИ!!!
   # Возвращает дайджест для указанной строки
   # p_311: добавление метода digest для использования в тестах, его доступ.
   # исп. мин. параметр cost в тестах, и норм. в эксплуатационном режиме.
   # теперь можно определить тестовые данные в: test/fixtures/users.yml
-  def User.digest(string)
+   def User.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ?
            BCrypt::Engine::MIN_COST :
            BCrypt::Engine.cost
     BCrypt::Password.create(string, cost: cost)
-  end
+   end
 
   # Возвращает случайный токен
   # p_321: т.к. методу не требуется экземпляр объекта,
@@ -36,6 +37,40 @@ class User < ApplicationRecord
   def User.new_token
     SecureRandom.urlsafe_base64
   end
+
+
+  # p_347: есть 2 более корректных, но непонятных способа:
+    # в данном случае self - это класс User, хотя в других методах
+    # это экземпляр объекта пользователя
+  # 1 СПОСОБ:
+  # def self.digest(string)
+  #   cost = ActiveModel::SecurePassword.min_cost ?
+  #          BCrypt::Engine::MIN_COST :
+  #          BCrypt::Engine.cost
+  #   BCrypt::Password.create(string, cost: cost)
+  # end
+  # # p_347: Возращает случайный токен
+  # def self.new_token
+  #   SecureRandom.urlsafe_base64
+  # end
+
+
+  # 2 СПОСОБ _ p_348:
+  # class << self
+  #   # Возвращает хэш - дайджест указанной строки.
+  #   def digest(string)
+  #     cost = ActiveModel::SecurePassword.min_cost ?
+  #            BCrypt::Engine::MIN_COST :
+  #            BCrypt::Engine.cost
+  #     BCrypt::Password.create(string, cost: cost)
+  #   end
+  #
+  #   # Возвращает случайный токен.
+  #   def new_token
+  #     SecureRandom.urlsafe_base64
+  #   end
+  # end
+
 
   # Запоминает пользователя в Б.Д. для использования в постоянных сеансах
   # p_321: из-за особенностей присваивания внутри объектов без ссылки self эта

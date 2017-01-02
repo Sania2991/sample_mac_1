@@ -39,7 +39,7 @@ Rails.application.configure do
   # config.action_cable.url = 'wss://example.com/cable'
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
 
-  # Для поддержки SSL по всему сайту
+  # p_!!! Для поддержки SSL по всему сайту
   config.force_ssl = true
 
   # Use the lowest log level to ensure availability of diagnostic information

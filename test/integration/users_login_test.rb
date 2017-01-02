@@ -67,7 +67,10 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
   # тестовые данные в test/fixtures/users.yml, переменная определена выше
   test "login with remembering" do
     log_in_as(@user, remember_me: '1')
-    assert_not_nil cookies['remember_token']
+    # p_349: стал возможен допуск к переменной
+      # поэтому проверили сверили существования токена для тек. польз. с true
+    assert_equal !!assigns(:user).remember_token, true
+    # -p_349 assert_not_nil cookies['remember_token']
   end
 
   # p_342: Тест флажка "Запомни меня" - 0
