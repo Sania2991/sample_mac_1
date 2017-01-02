@@ -1,0 +1,206 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+$gray-medium-light: #eaeaea;
+
+  /* Sass-примесь p_243 */
+@mixin box_sizing {
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:         border-box;
+}
+
+/* общие */
+
+body {
+  padding-top: 60px;
+}
+
+section {
+  overflow: auto;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.center {
+  text-align: center;
+  h1 {
+    margin-bottom: 10px;
+  }
+}
+
+
+/* правила для текста стр_171 */
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1;
+}
+
+h1 {
+  font-size: 3em;
+  letter-spacing: -2px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.2em;
+  letter-spacing: -1px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: normal;
+  color: #777;
+}
+
+p {
+  font-size: 1.1em;
+  line-height: 1.7em;
+}
+
+
+/* заголовок стр_172 */
+
+#logo {
+  float: left;
+  margin-right: 10px;
+  font-size: 1.7em;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  padding-top: 9px;
+  font-weight: bold;
+  &logo:hover {
+    color: #fff;
+    text-decoretion: none;
+  }
+}
+
+
+/* подвал стр_176 */
+
+footer {
+  margin-top: 45px; /* отступ сверху */
+  padding-top: 5px;
+  border-top: 1px solid #eaeaea;   /* гориз. линия толщиной 1px */
+  color: #777;   /* цвет текста */
+  a {
+    color: #555;  /* цвет ссылок */
+    &:hover {  /* цвет при наведении */
+      color: #555;
+    }
+  }
+  small {  /* расположени текста в тегах small */
+    float: left;
+  }
+  ul {   /* расположение списка справа */
+    float: right;
+    list-style: none;  /* ??? */
+    li {  /* расположение подпунктов слева друг от друга */
+      float: left;
+      margin-left: 15px;  /* расстояние слева друг от друга */
+    }
+  }
+}
+
+
+/* разное p_243 */
+
+.debug_dump {
+  clear: both;
+  float: left;
+    /* ширина отладочной таблицы */
+  width: 100%;
+    /* отступ сверху */
+  margin-top: 45px;
+    /* вставляем примесь, которую прописали выше */
+  @include box_sizing;
+}
+
+
+/* определение стилей для профиля и боковой панели */
+/* боковая панель p_253 */
+
+aside {
+  section.user_info {
+    margin-top: 20px;
+  }
+  section {
+    padding: 10px 0;
+    margin-top: 20px;
+    &:first-child {
+      border: 0;
+      padding-top: 0;
+    }
+    span {
+      display: block;
+      margin-bottom: 3px;
+      line-height: 1;
+    }
+    h1 {
+      font-size: 1.4em;
+      text-align: left;
+      letter-spacing: -1px;
+      margin-bottom: 3px;
+      margin-top: 0px;
+    }
+  }
+}
+
+.gravatar {
+  float: left;
+  margin-right: 10px;
+}
+
+.gravatar_edit {
+  margin-top: 15px;
+}
+
+
+/* p_257: формы */
+
+input, textarea, select, .uneditable-input {
+  border: 1px solid #bbb;
+  width: 100%;
+  margin-bottom: 15px;
+  @include box_sizing;
+}
+
+input {
+  height: auto !important;
+}
+
+.checkbox {
+  margin-top: -10px;
+  margin-bottom: 10px;
+  span {
+    margin-left: 20px;
+    font-weight: normal;
+  }
+}
+
+/* форма для флажка */
+#session_remember_me {
+  width: auto;
+  margin-left: 0;
+}
+
+/* p_269 */
+#errors_explanation {
+  color: red;
+  ul {
+    color: red;
+    margin: 0 0 30px 0;
+  }
+}
+
+.field_with_errors {
+  @extend .has-error;
+  .form-control {
+    color: $state-danger-text;
+  }
+}
+
+
+
