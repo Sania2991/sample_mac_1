@@ -26,7 +26,8 @@ class SessionsController < ApplicationController
 
       # p_338: Обработка флажка "Запомни меня". Стоит - запоминает, иначе нет.
       params[:session][:remember_me] == '1' ? remember(@user) : forget(@user)
-      # p_302: компактная форма переадресации, rails автомат. преобр. в user_url(user)
+      # p_302: компактная форма переадресации, rails автомат.
+        # преобр. в user_url(user)
       redirect_to @user
     else
       # p_297 - вовод сообщения, если неправильно.
