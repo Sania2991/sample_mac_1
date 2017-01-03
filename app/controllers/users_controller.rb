@@ -3,7 +3,10 @@ class UsersController < ApplicationController
   # p_362: Вызов определённого метода до определенных действий
   # По умолчанию предварительные фильтры применяются ко всем методам контроллера
     # хэш :only - ограничивает фильтр только к методам :edit и :update.
+  # открыть страницу update и edit может только зарегестриров. пользователь
   before_action :logged_in_user, only: [:edit, :update]
+  # p_368: предварительный фильтр для второго пользователя
+  before_action :correct_user,   only: [:edit, :update]
 
   def show
     @user = User.find(params[:id])
@@ -45,6 +48,7 @@ class UsersController < ApplicationController
   end
 
 
+
   private
 
   def user_params
@@ -60,6 +64,14 @@ class UsersController < ApplicationController
       flash[:danger] = "Please log in."
       redirect_to login_url
     end
+  end
+
+
+  # p_368: подтверждает права пользователя
+  def correct_user
+    @user = User.find(params[:id])
+    # возвращает на главную страницу, если данный пользов. не текущий
+    redirect_to(root_url) unless current_user?(@user)
   end
 
 end

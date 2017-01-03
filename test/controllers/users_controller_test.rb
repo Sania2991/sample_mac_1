@@ -5,6 +5,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   # p_365:
   def setup
     @user = users(:michael)
+    # p_367: переменная класса второго пользовател
+    @other_user = users(:archer)
   end
 
   test "should get new" do
@@ -13,18 +15,21 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   # p_365: тестирование защищенности метода edit.
-    # Метод before_action в app/controllers/users_controller.rb
+    # тестируем метод before_action в app/controllers/users_controller.rb
+  # случай, когда незарег. пользов. редактирует
   test "should redirect edit when not logged in" do
     # Так в Rails 4.0
     # p_365: Соглашение Rails:   id: @user  =>  @user.id
     # get :edit, id: @user
     # , а так в 5.0
+    # отправляется
     get edit_user_path(@user)
     assert_not flash.empty?
     assert_redirected_to login_url
   end
 
   # p_365: тестирование защищенности метода update
+  # случай, когда незарег. пользов. обновляет свои данные
   test "should redirect update when not logged in" do
     # Так в Rails 4.0
     # p_365: Также соглашение Rails, но чтобы получить верные маршруты необход.
@@ -38,4 +43,36 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
 
+  # p_367: попытка редактировать профиль другого пользователя
+  test "should redirect edit when logged in as wrong user" do
+    log_in_as(@other_user)
+    get edit_user_path(@user)
+    assert flash.empty?
+    assert_redirected_to root_url
+  end
+
+  # p_367: попытка обновления профиля другого пользователя
+  test "should redirect update when logged in as wrong user" do
+    log_in_as(@other_user)
+    patch user_path(@user), params: { user: { name: @user.name,
+                                              email: @user.email } }
+    assert flash.empty?
+    assert_redirected_to root_url
+  end
+
+
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
