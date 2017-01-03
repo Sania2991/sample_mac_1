@@ -7,7 +7,8 @@ class User < ApplicationRecord
                     format: {with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
   has_secure_password
-  validates :password, length: {minimum: 6}
+  # p_360: разрешение пустых паролей (при редактировании пользователя)
+  validates :password, length: {minimum: 6}, allow_blank: true
 
 
   class << self
