@@ -1,10 +1,6 @@
-<!-- p_268: создали новый каталог shared => в нем будут находиться все шаблоны,
-  которые планируется использовать не один раз -->
-<!-- p_268: шаблон для отображения ошибок -->
 <% if @user.errors.any? %>
   <div id="error_explanation">
     <div class="alert alert-danger">
-      <!-- p_269: ф-ция возвращает правильную верси множ. числа -->
       The form contains <%= pluralize(@user.errors.count, "errors") %>.
     </div>
     <ul>

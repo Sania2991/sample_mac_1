@@ -1,25 +1,20 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  # p_213
-  # этот метод автоматически запускается перед каждым тестом
+
   def setup
-    # p_232: добавление пароля и проверки
     @user = User.new(name: "Example User", email: "user@examle.com",
                      password: "foobar", password_confirmation: "foobar")
   end
 
   # проверка допустимости
   test "should be valid" do
-    # метод assert: возврщает true - если получает true и false при обратном.
     assert @user.valid?
   end
 
   # проверка недопустимости имени из одних пробелов
-  # проверка наличия осуществл. в app/models/user.rb
   test "name should be present" do
     @user.name = " "
-    # обратное от assert, как = и !=
     assert_not @user.valid?
   end
 
@@ -44,8 +39,6 @@ class UserTest < ActiveSupport::TestCase
                          first.last@foo.jp alice+bob@baz.cn]
     valid_addresses.each do |valid_addresses|
       @user.email = valid_addresses
-      # p_219: если потерпит неудачу, то выводится второй аргумент
-      # метод inspect возвращает литеральное представление
       assert @user.valid?, "#{valid_addresses.inspect} should be valid"
     end
   end
@@ -62,9 +55,7 @@ class UserTest < ActiveSupport::TestCase
 
   # тест уникальности (пользователь без повторов)
   test "email addresses should be unique" do
-    # метод .dup создает дубликат
     duplicate_user = @user.dup
-    # p_224: тестируем нечувствительность к ренистру проверки уникальности.
     duplicate_user.email = @user.email.upcase
     @user.save
     assert_not duplicate_user.valid?
