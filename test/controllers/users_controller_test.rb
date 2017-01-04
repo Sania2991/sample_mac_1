@@ -9,6 +9,15 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @other_user = users(:archer)
   end
 
+
+  # p_375: Тестирование переадресации в методе index незарегистр. польз.
+  test "should redirect index when not logged in" do
+    get users_path
+    # p_375: проверяем переадресацию в методе index
+    assert_redirected_to login_url
+  end
+
+
   test "should get new" do
     get signup_path
     assert_response :success

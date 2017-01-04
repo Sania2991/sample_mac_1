@@ -4,9 +4,18 @@ class UsersController < ApplicationController
   # По умолчанию предварительные фильтры применяются ко всем методам контроллера
     # хэш :only - ограничивает фильтр только к методам :edit и :update.
   # открыть страницу update и edit может только зарегестриров. пользователь
-  before_action :logged_in_user, only: [:edit, :update]
+  # p_375: вносим index в список защищенных фильтром logged_in_user
+  before_action :logged_in_user, only: [:index, :edit, :update]
   # p_368: предварительный фильтр для подтверждения прав пользователя.
   before_action :correct_user,   only: [:edit, :update]
+
+
+  # p_375: добавляем метод index для отображения html
+  def index
+    # p_376: для отобр. всех польз. созд. перем. со списком всех
+    @users = User.all
+  end
+
 
   def show
     @user = User.find(params[:id])
