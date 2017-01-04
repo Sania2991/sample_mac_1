@@ -5,7 +5,7 @@ class UsersController < ApplicationController
     # хэш :only - ограничивает фильтр только к методам :edit и :update.
   # открыть страницу update и edit может только зарегестриров. пользователь
   before_action :logged_in_user, only: [:edit, :update]
-  # p_368: предварительный фильтр для второго пользователя
+  # p_368: предварительный фильтр для подтверждения прав пользователя.
   before_action :correct_user,   only: [:edit, :update]
 
   def show
@@ -30,7 +30,9 @@ class UsersController < ApplicationController
 
   # p_352:
   def edit
-    @user = User.find(params[:id])
+    # p_367: убрали, т.к. фильтр correct_user определяет переменную @user в
+      # методах edit и update
+    # @user = User.find(params[:id])
   end
 
 
@@ -61,6 +63,8 @@ class UsersController < ApplicationController
     # Подтверждает вход пользователя
   def logged_in_user
     unless logged_in?
+      # p_372: использ. фильтр store_location (запомин. URL) в session_helper.rb
+      store_location
       flash[:danger] = "Please log in."
       redirect_to login_url
     end

@@ -21,11 +21,15 @@ class UsersEditTest < ActionDispatch::IntegrationTest
 
 
   # p_359: тест успешной попытки редактирования
-  test "successful edit" do
+  # p_371: изменили тест: тест дружелюбной переадресации (куда надо было)
+  test "successful edit with friendly forwarding" do
+    # p_371: пытаемся посетить страницу редактирования (еще незарегистрирован)
+    get edit_user_path(@user)
     # p_364: осуществляем вход пользователя до вызова метода edit и update
     log_in_as(@user)
-    get edit_user_path(@user)
-    assert_template 'users/edit'
+    assert_redirected_to edit_user_url(@user)
+    # -p_371: get edit_user_path(@user)
+    # -p_371: assert_template 'users/edit'  # т.к. ожидается другая переадр.
     name  = "Foo Bar"
     email = "foo@bar.com"
     patch user_path(@user), user: { name: name,

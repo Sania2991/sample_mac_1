@@ -50,4 +50,21 @@ module SessionsHelper
     @current_user = nil
   end
 
+  # p_371: перенаправить по сохраненному адресу или на страницу по умолчанию
+  def redirect_back_or(default)
+    # p_373: хоть строка переадр. и находится выше, удаление URL произойдет
+      # т.к. явной переадр.: return - нет, а метод ещё не закончился
+    redirect_to(session[:forwarding_url] || default)
+    # p_373: удаляет сохр. URL
+    session.delete(:forwarding_url)
+  end
+
+
+  # p_372: запомин. url в session[:forwarding_url], НО! только при GET запросе!
+    # это предтвращает сохр., если форму отправл. незарегистр. пользов.
+  def store_location
+    # использ. объект request для получения URL запрашиваемой страницы
+    session[:forwarding_url] = request.url if request.get?
+  end
+
 end
