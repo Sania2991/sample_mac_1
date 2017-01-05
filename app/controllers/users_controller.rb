@@ -13,7 +13,9 @@ class UsersController < ApplicationController
   # p_375: добавляем метод index для отображения html
   def index
     # p_376: для отобр. всех польз. созд. перем. со списком всех
-    @users = User.all
+    # -p_382: @users = User.all
+    # p_382: постраничный вывод списка пользователей в методе index
+    @users = User.paginate(page: params[:page], per_page: 30)
   end
 
 
