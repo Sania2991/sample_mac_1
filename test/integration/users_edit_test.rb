@@ -25,6 +25,8 @@ class UsersEditTest < ActionDispatch::IntegrationTest
   test "successful edit with friendly forwarding" do
     # p_371: пытаемся посетить страницу редактирования (еще незарегистрирован)
     get edit_user_path(@user)
+    # p_397: проверяем, что session[:forwarding_url] запомнил наш путь
+    assert_equal session[:forwarding_url], edit_user_url(@user)
     # p_364: осуществляем вход пользователя до вызова метода edit и update
     log_in_as(@user)
     assert_redirected_to edit_user_url(@user)
@@ -38,9 +40,15 @@ class UsersEditTest < ActionDispatch::IntegrationTest
                                     pasword_confirmation: "" }
     assert_not flash.empty?
     assert_redirected_to @user
+    # обновим данные в Б.Д.
     @user.reload
+    # сравним эти обновленные данные
     assert_equal @user.name, name
     assert_equal @user.email, email
+    # p_397: проверяем друж. перенаправление на единственный раз
+      # при повторном - по умолчанию., т.к. уже были переадресованны,
+      # значит проверяем, что session[:forwarding_url] == nill
+    assert_nil session[:forwarding_url]
   end
 
 end

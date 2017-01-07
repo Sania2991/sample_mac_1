@@ -90,6 +90,17 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
 
+  # p_397: тестирование недоступности атрибута admin для редактирования
+    # т.к. не указали в user_params - admin, как разрешенный
+  test "should not allow the admin attribute to be edited via the web" do
+    log_in_as(@other_user)
+    assert_not @other_user.admin?
+    patch user_path(@other_user), params: { user: {password:             123456,
+                                                  password_confirmation: 123456,
+                                                  admin: 1 } }
+    assert_not @other_user.reload.admin?
+  end
+
 end
 
 
