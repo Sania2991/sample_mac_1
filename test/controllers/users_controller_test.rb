@@ -70,6 +70,26 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
 
+  # p_393: тесты на уровне действия для контроля доступа
+  # p_393: тест: невошедший пользователь должен быть переадресован на стр. входа
+  test "should redirect destroy when not logged in" do
+    assert_no_difference 'User.count' do
+      delete user_path(@user)
+    end
+    assert_redirected_to login_url
+  end
+
+
+  # p_393: тест: вошедший польз.-неадмин должен быть переадресован на гл. стр.
+  test "should redirect destroy when logged in as a non-admin" do
+    log_in_as(@other_user)
+    assert_no_difference 'User.count' do
+      delete user_path(@user)
+    end
+    assert_redirected_to root_url
+  end
+
+
 end
 
 

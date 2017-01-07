@@ -5,9 +5,12 @@ class UsersController < ApplicationController
     # хэш :only - ограничивает фильтр только к методам :edit и :update.
   # открыть страницу update и edit может только зарегестриров. пользователь
   # p_375: вносим index в список защищенных фильтром logged_in_user
-  before_action :logged_in_user, only: [:index, :edit, :update]
+  # p_391: добав. destroy, т.к. пользователь перед удал. должен быть авториз.
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
   # p_368: предварительный фильтр для подтверждения прав пользователя.
   before_action :correct_user,   only: [:edit, :update]
+  # p_391: Предварительный метод, огранич. доступ к методу destroy
+  before_action :admin_user,     only: :destroy
 
 
   # p_375: добавляем метод index для отображения html
@@ -61,8 +64,18 @@ class UsersController < ApplicationController
   end
 
 
+  # p_391: Добавление метода удаления пользователя (для админов)
+  def destroy
+    # p_391: сделали цепочку методов, объединив find и destroy
+    User.find(params[:id]).destroy
+    flash[:success] = "User deleted"
+    redirect_to users_url
+  end
+
+
 
   private
+
 
   def user_params
     params.require(:user).permit(:name, :email, :password,
@@ -88,6 +101,19 @@ class UsersController < ApplicationController
     # возвращает на главную страницу, если данный пользов. не текущий
     redirect_to(root_url) unless current_user?(@user)
   end
+
+
+  # p_391: подтверждает наличие административных привилегия.
+  def admin_user
+    redirect_to(root_url) unless current_user.admin?
+  end
+
+
+  # p_391: подтверждает наличие административных привилегей перед мет. destroy
+  def admin_user
+    redirect_to(root_url) unless current_user.admin?
+  end
+
 
 end
 
