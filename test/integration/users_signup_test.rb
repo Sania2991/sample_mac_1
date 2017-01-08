@@ -31,6 +31,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                          password_confirmation: "password" } }
     end
     # p_425: дополнили след. кодом:
+    # p_425: проверяет, чтобы было доставлено точно одно письмо!
     assert_equal 1, ActionMailer::Base.deliveries.size
     user = assigns(:user)
     assert_not user.activated?

@@ -43,11 +43,10 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
   # p_342: Тест флажка "Запомни меня" - 1
   test "login with remembering" do
     log_in_as(@user, remember_me: '1')
-    assert_equal '1', assigns(:user).remember_token
+    assert_not_empty cookies['remember_token']
 
-  #  log_in_as(@user, remember_me: '1')
-  #  assert_not_empty cookies['remember_token']
     # p_349: упражнение!!! assign - позволяет получ. доступ к .remember_token
+    # НО НУЖНО ПЕРЕНАЗНАЧИТЬ ПЕРЕМЕННУЮ USER в create
     # assert_equal assigns(:user).remember_token, not_empty
   end
 
