@@ -77,7 +77,9 @@ class UserTest < ActiveSupport::TestCase
   # p_333: Проверка вызова authenticated? с несуществующим дайджестом
     # проверка теста с двумя браузерами: токен оставили пустым
   test "authenticated? should return false for a user with nil digest" do
-    assert_not @user.authenticated?('')
+    # -p_420: assert_not @user.authenticated?('')
+    # p_420: т.к. метод authenticated? сделали обощенным, и там теперь 2 арг.:
+    assert_not @user.authenticated?(:remember, '')
   end
 
 end

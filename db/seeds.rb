@@ -4,7 +4,11 @@ User.create!(name:  "Example User",
              email: "example@railstutorial.org",
              password:              "foobar",
              password_confirmation: "foobar",
-             admin: true)
+             admin: true,
+             # p_405: активация образцов пользователей по умолч.
+             activated: true,
+             # p_405: м. Time.zone.now - возвр. тек. отметку времени с уч. пояса
+             activated_at: Time.zone.now)
 99.times do |n|
   name = Faker::Name.name
   email = "example-#{n+1}@railstutorial.org"
@@ -14,7 +18,9 @@ User.create!(name:  "Example User",
   User.create!(name: name,
                email: email,
                password:               password,
-               password_confirmation: password)
+               password_confirmation: password,
+               activated: true,
+               activated_at: Time.zone.now)
 end
 
 # p_380:

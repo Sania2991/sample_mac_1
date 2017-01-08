@@ -1,0 +1,5 @@
+<!-- p_409: текстовое представление для активации учетной записи -->
+Hi <% @user.name %>
+Welcome to the Sample App! Click on the link below to activate your account:
+<!-- p_408: Приветствование по имени и уник. ссылка на страницу активации -->
+<%= edit_account_activation_url(@user.activation_token, email: @user.email) %>

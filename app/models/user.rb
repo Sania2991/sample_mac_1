@@ -1,6 +1,12 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token
-  before_save {email.downcase! }
+  # p_404: создание доступного атриута
+  attr_accessor :remember_token, :activation_token
+  # p_403: предпочтительный использовать ссылки на метода, нежели блок
+  # -p_404: before_save {email.downcase! }
+  before_save :downcase_email
+  # p_403: дайджест токуна активации должен сохр. только при создании польз.
+  before_create :create_activation_digest
+
   validates :name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 255 },
@@ -33,14 +39,41 @@ class User < ApplicationRecord
   end
 
 
-  def authenticated?(remember_token)
-    return false if remember_digest.nil?
-    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  # p_419: переписали метод: т.к. он специализировался для токена запоминания
+  # def authenticated?(remember_token)
+  #  return false if remember_digest.nil?
+  #  BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  # end
+  # p_418: возвращает true, если указанный токен соответствует дайджесту
+    #  attribute - стал символом :activation
+  def authenticated?(attribute, token)
+    # p_418: метод send - позволяет вызывать метод по его названию
+    digest = send("#{attribute}_digest")
+    return false if digest.nil?
+    # тут и происходит наше сравнение remember_digest с token
+    BCrypt::Password.new(digest).is_password?(token)
   end
-
 
  def forget
     update_attribute(:remember_digest, nil)
   end
+
+
+  # p_403: т.к. методы используются только в User, делаем их приватными.
+  private
+
+    # p_404: преобразует адрес электронной почты в нижний регистр
+      # используется выше в before_save (перед. сохранением)
+    def downcase_email
+      self.email = email.downcase
+    end
+
+    # p_404: создает и присваивает токен активации и его дайджет.
+      # когда новый польз. создается посредством User.new - он получ. оба атриб.
+      # используется выше в before_create (перед созданием)
+    def create_activation_digest
+      self.activation_token = User.new_token
+      self.activation_digest = User.digest(activation_token)
+    end
 
 end
