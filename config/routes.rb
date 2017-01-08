@@ -10,4 +10,6 @@ Rails.application.routes.draw do
   resources :users
   # добавление ресурса активации учетных записей
   resources :account_activations, only: [:edit]
+  # p_430: добавление ресурса для сброса пароля
+  resources :password_resets,     only: [:new, :create, :edit, :update]
 end

@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   # p_404: создание доступного атриута
-  attr_accessor :remember_token, :activation_token
+  # p_434: доступность атрибута :reset_token
+  attr_accessor :remember_token, :activation_token, :reset_token
   # p_403: предпочтительный использовать ссылки на метода, нежели блок
   # -p_404: before_save {email.downcase! }
   before_save :downcase_email
@@ -74,6 +75,18 @@ class User < ApplicationRecord
     # p_427: заменили @user на self
       # UserMailer.account_activation(@user).deliver_now
     UserMailer.account_activation(self).deliver_now
+  end
+
+  # p_435: Устанавливает атрибуты для сброса пароля
+  def create_reset_digest
+    self.reset_token = User.new_token
+    update_attribute(:reset_digest, User.digest(reset_token))
+    update_attribute(:reset_sent_at, Time.zone.now)
+  end
+
+  # p_435: Посылает письмо со ссылкой на форму ввода нового пароля.
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
   end
 
 
