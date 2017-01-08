@@ -12,7 +12,6 @@ class AccountActivationsController < ApplicationController
       flash[:success] = "Account activated!"
       redirect_to user
     else
-      debugger
       # также здесь учитывается случай недопустимого токена
       flash[:danger] = "Invalid activation link"
       redirect_to root_url

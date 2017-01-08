@@ -6,6 +6,7 @@
   Welcome to the Sample App! Click on the link below to activate your account:
 </p>
 
-<!-- p_409: link_to - конструтрование ссылки в HTML-шаблоне -->
+<% #  p_409: link_to - конструтрование ссылки в HTML-шаблоне
+   #  не используй тут "<!--" для комментарий, БУДЕТ ОШИБКА!!! --> %>
 <%= link_to "Activate", edit_account_activation_url(@user.activation_token,
                                                     email: @user.email) %>

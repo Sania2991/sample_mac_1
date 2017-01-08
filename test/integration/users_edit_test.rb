@@ -11,11 +11,12 @@ class UsersEditTest < ActionDispatch::IntegrationTest
     # p_364: осуществляем вход пользователя до вызова метода edit и update
     log_in_as(@user)
     get edit_user_path(@user)
+
     assert_template 'users/edit'
-    patch user_path(@user), user: { name: '',
-                                    email: 'foo@invalid',
-                                    password:              'foo',
-                                    password_confirmation: 'bar' }
+    patch user_path(@user), params: { user: { name:  "",
+                                              email: "foo@invalid",
+                                              password:              "foo",
+                                              password_confirmation: "bar" } }
     assert_template 'users/edit'
   end
 
@@ -34,10 +35,10 @@ class UsersEditTest < ActionDispatch::IntegrationTest
     # -p_371: assert_template 'users/edit'  # т.к. ожидается другая переадр.
     name  = "Foo Bar"
     email = "foo@bar.com"
-    patch user_path(@user), user: { name: name,
-                                    email: email,
-                                    password:             "",
-                                    pasword_confirmation: "" }
+    patch user_path(@user), params: { user: { name: name,
+                                              email: email,
+                                              password:             "",
+                                              pasword_confirmation: "" } }
     assert_not flash.empty?
     assert_redirected_to @user
     # обновим данные в Б.Д.

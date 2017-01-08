@@ -43,13 +43,25 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
   # p_342: Тест флажка "Запомни меня" - 1
   test "login with remembering" do
     log_in_as(@user, remember_me: '1')
-    assert_equal !!assigns(:user).remember_token, true
+    assert_equal '1', assigns(:user).remember_token
+
+  #  log_in_as(@user, remember_me: '1')
+  #  assert_not_empty cookies['remember_token']
+    # p_349: упражнение!!! assign - позволяет получ. доступ к .remember_token
+    # assert_equal assigns(:user).remember_token, not_empty
   end
 
   # p_342: Тест флажка "Запомни меня" - 0
   test "login without remember_me" do
+    # Log in to set the cookie.
+    #debugger
+    log_in_as(@user, remember_me: '1')
+    # Log in again and verify that the cookie is deleted.
     log_in_as(@user, remember_me: '0')
-    assert_nil cookies['remember_token']
+    assert_empty cookies['remember_token']
+
+#    log_in_as(@user, remember_me: '0')
+#   assert_empty cookies['remember_token']
   end
 
 end
