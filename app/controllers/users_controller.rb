@@ -38,7 +38,8 @@ class UsersController < ApplicationController
       # redirect_to @user
       # p_414: добавление активации уч. записи в процедуру регистрации пользов.
       # .deliver_now - отправление email'a
-      UserMailer.account_activation(@user).deliver_now
+      # -p_426_рефакторинг: UserMailer.account_activation(@user).deliver_now
+      @user.send_activation_email
       flash[:info] = "Please check your email to activate your account. "
       # переадресов. на гл. страницу, т.к. необходимо сначала активир. уч. зап.
       redirect_to root_url

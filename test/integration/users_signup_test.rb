@@ -2,7 +2,9 @@ require 'test_helper'
 
 class UsersSignupTest < ActionDispatch::IntegrationTest
 
-  # p_424: тестирование активации учетной записи
+  # p_425: т.к. массив deliveries глобальный - его нужно очистить, если вдруг
+    # понадобится отправить почту на ещё каком-нить этапе тестирования
+  # упоминается тест усп. регистр.: "valid signup information with account ..."
   def setup
     ActionMailer::Base.deliveries.clear
   end
@@ -33,6 +35,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     # p_425: дополнили след. кодом:
     # p_425: проверяет, чтобы было доставлено точно одно письмо!
     assert_equal 1, ActionMailer::Base.deliveries.size
+    # p_425: м. assigns() - позволяет получ. доступ к пер. экз. @user
     user = assigns(:user)
     assert_not user.activated?
     # p_425: попытиаться выполнить вход до активации:

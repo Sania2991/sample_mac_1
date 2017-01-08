@@ -59,6 +59,24 @@ class User < ApplicationRecord
   end
 
 
+  # p_426: Активирует учетную запись
+  def activate
+    # p_427: избавились от переменной user, т.к. внутри модели User ее нет
+    # -user.update_attribute(:activated,    true)
+    # вместо user можно было использ. self, но внутри модели можно не употребл.
+    update_attribute(:activated,    true)
+    update_attribute(:activated_at, Time.zone.now)
+  end
+
+
+  # p_426: Посылает письмо со ссылкой на страницу активации
+  def send_activation_email
+    # p_427: заменили @user на self
+      # UserMailer.account_activation(@user).deliver_now
+    UserMailer.account_activation(self).deliver_now
+  end
+
+
   # p_403: т.к. методы используются только в User, делаем их приватными.
   private
 

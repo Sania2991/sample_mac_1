@@ -6,8 +6,9 @@ class AccountActivationsController < ApplicationController
     # p_421: !user.activated? - предотвращ. повт. активацию уже актив. уч. зап.
     if user && !user.activated? && user.authenticated?(:activation, params[:id])
       # p_421: если if выполн. - активируем уч. зап. и обновл. метку времени.
-      user.update_attribute(:activated,    true)
-      user.update_attribute(:activated_at, Time.zone.now)
+      # -p_427_refactor: user.update_attribute(:activated,    true)
+      # -p_427_refactor: user.update_attribute(:activated_at, Time.zone.now)
+      user.activate
       log_in user
       flash[:success] = "Account activated!"
       redirect_to user
