@@ -1,2 +1,26 @@
-<h1>PasswordResets#edit</h1>
-<p>Find me in app/views/password_resets/edit.html.erb</p>
+<% # p_441: форма для смены пароля %>
+<% provide(:title, 'Reset password') %>
+<h1>Reset password</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(@user, url: password_reset_path(params[:id])) do |f| %>
+      <%= render 'shared/error_messages' %>
+
+      <% # p_441: нам потребуется найти польз. по email в м. edit и update.
+           # в edit - он доступен автоматич., т.к присутств. в ссылке выше
+           # в updade - решение заключ. в использов. скрытого поля для размещ.
+         # p_442: тут вместо f.hidden_field :email, @user.email использ. так:%>
+      <%= hidden_field_tag :email, @user.email %>
+      <% # p_442: т.к. ссылка на страницу сброса помещает email в params[:email]
+           #, а в 1-ом случае она будет находиться в params[:user][:email] %>
+
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form_control' %>
+
+      <%= f.label :password_confirmation, "Confirmation" %>
+      <%= f.password_field :password_confirmation, class: 'form_control' %>
+      <%= f.submit "Update password", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

@@ -89,6 +89,13 @@ class User < ApplicationRecord
     UserMailer.password_reset(self).deliver_now
   end
 
+  # Возвращает true, если время для сброса пароля истекло.
+  def password_reset_expired?
+    # Знак "<" - следует читать, как "ранее чем" => ссылка на сброс отправлена
+      # раньше, чем два часа назад.
+    reset_sent_at < 2.hours.ago
+  end
+
 
   # p_403: т.к. методы используются только в User, делаем их приватными.
   private
